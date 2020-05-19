@@ -18,7 +18,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from pyecharts import Bar
-
+from pyecharts import options as opts
 
 # 一共8个区域，包含：华北、东北、华东、华中、华南、西北、西南、港澳台
 # 华北
@@ -134,9 +134,14 @@ def show_with_chart(top_10):
     temp_lows = list(map(lambda item: item['temp_low'], top_10))
     
     # 3.生成饼状图并写入到html文件中
-    bar = Bar("最低气温排行榜")
+   # bar = Bar("最低气温排行榜")
     
-    bar.add("最低温度", citys, temp_lows)
+    #bar.add("最低温度", citys, temp_lows)
+    
+    bar = Bar()
+    bar.add_xaxis(citys)
+    bar.add_yaxis('温度', temp_lows)
+    bar.set_global_opts(title_opts=opts.TitleOpts(title="中国最低气温TOP10"))
     
     # 渲染
     bar.render('temperature.html')
